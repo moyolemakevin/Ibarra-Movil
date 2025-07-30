@@ -25,25 +25,6 @@
 
   <ion-card class="profile-card">
     <form [formGroup]="profileForm" class="profile-form">
-      <ion-item lines="full">
-        <ion-icon slot="start" name="person-outline"></ion-icon>
-        <ion-label position="stacked">Nombres</ion-label>
-        <ion-input
-          formControlName="name"
-          [readonly]="!isEditing"
-          placeholder="No disponible"
-        ></ion-input>
-      </ion-item>
-
-      <ion-item lines="full">
-        <ion-icon slot="start" name="people-outline"></ion-icon>
-        <ion-label position="stacked">Apellidos</ion-label>
-        <ion-input
-          formControlName="lastname"
-          [readonly]="!isEditing"
-          placeholder="No disponible"
-        ></ion-input>
-      </ion-item>
 
       <ion-item lines="full">
         <ion-icon slot="start" name="mail-outline"></ion-icon>
