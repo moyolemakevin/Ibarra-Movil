@@ -109,7 +109,7 @@
                 "output": "assets"
               }
             ],
-            "styles": ["node_modules/ionicons/css/ionicons.min.css","src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/global.scss", "src/theme/variables.scss"],
             "scripts": []
           },
           "configurations": {
