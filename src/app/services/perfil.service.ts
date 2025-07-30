@@ -48,7 +48,7 @@ export class PerfilService {
       ...(data.username && { username: data.username })
     };
 
-    return this.http.put(`${this.apiUrl}/users/updateUser`, updateData, {
+    return this.http.put(`${this.apiUrl}/users/update-user`, updateData, {
       headers: this.getAuthHeaders()
     });
   }
