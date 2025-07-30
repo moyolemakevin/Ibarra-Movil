@@ -77,6 +77,13 @@ export class PerfilPage implements OnInit {
       });
     }
 
+    // Verificar si existe un token antes de llamar al backend
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+      console.warn('No hay token de autenticación. Usando datos locales.');
+      return;
+    }
+
     // Cargar datos desde el backend usando /auth/whoami
     this.perfilService.getProfile().subscribe({
       next: (data) => {
@@ -124,6 +131,19 @@ export class PerfilPage implements OnInit {
       spinner: 'crescent'
     });
     await loading.present();
+
+    // Verificar token antes de enviar al servidor
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+      loading.dismiss();
+      const alert = await this.alertCtrl.create({
+        header: 'No autenticado',
+        message: 'Inicia sesión para actualizar tu perfil.',
+        buttons: ['OK']
+      });
+      await alert.present();
+      return;
+    }
 
     // Extraer solo los campos que acepta la API
     const formValue = this.profileForm.value;
