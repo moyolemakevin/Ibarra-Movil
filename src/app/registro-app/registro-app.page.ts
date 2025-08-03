@@ -205,23 +205,24 @@ signedDocumentFile!: File;
     return labels[fieldName] || fieldName;
   }
 
-  async onFileChange(event: Event, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
+  async onFileChange(event: any, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const allowedExtensions = ['pdf', 'png', 'gpg'];
+    const files = input.files || event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const allowedExtensions = ['jpg', 'jpeg', 'png'];
       const extension = file.name.split('.').pop()?.toLowerCase();
 
       if (!extension || !allowedExtensions.includes(extension)) {
-        await this.showToast('Formato de archivo no permitido. Solo PDF, GPG o PNG', 'warning');
-        input.value = '';
+        await this.showToast('Formato de archivo no permitido. Solo JPG, JPEG o PNG', 'warning');
+        if (input) { input.value = ''; }
         return;
       }
 
       const maxSize = 2 * 1024 * 1024;
       if (file.size > maxSize) {
         await this.showToast('El archivo supera el tamaño máximo de 2 MB', 'warning');
-        input.value = '';
+        if (input) { input.value = ''; }
         return;
       }
 
@@ -235,6 +236,15 @@ signedDocumentFile!: File;
 
       await this.showToast('Archivo cargado correctamente', 'success');
     }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  onDrop(event: DragEvent, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
+    event.preventDefault();
+    this.onFileChange(event, tipo);
   }
 
   hasError(fieldName: string): boolean {
