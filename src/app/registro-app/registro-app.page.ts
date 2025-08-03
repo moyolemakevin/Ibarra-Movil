@@ -84,7 +84,11 @@ signedDocumentFile!: File;
   }
   async onSubmit() {
     const isValid = await this.validateForm();
-    if (!isValid || !this.identityDocumentFile || !this.certificateFile) {
+    if (!isValid) {
+      return;
+    }
+    if (!this.identityDocumentFile || !this.certificateFile || !this.signedDocumentFile) {
+      await this.showToast('Debe adjuntar todos los documentos requeridos', 'warning');
       return;
     }
 
@@ -201,18 +205,46 @@ signedDocumentFile!: File;
     return labels[fieldName] || fieldName;
   }
 
-  onFileChange(event: Event, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
+  async onFileChange(event: any, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
+    const files = input.files || event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+      const extension = file.name.split('.').pop()?.toLowerCase();
+
+      if (!extension || !allowedExtensions.includes(extension)) {
+        await this.showToast('Formato de archivo no permitido. Solo PDF, JPG o PNG', 'warning');
+        if (input) { input.value = ''; }
+        return;
+      }
+
+      const maxSize = 2 * 1024 * 1024;
+      if (file.size > maxSize) {
+        await this.showToast('El archivo supera el tamaño máximo de 2 MB', 'warning');
+        if (input) { input.value = ''; }
+        return;
+      }
+
       if (tipo === 'identityDocument') {
         this.identityDocumentFile = file;
       } else if (tipo === 'certificate') {
         this.certificateFile = file;
-        } else if (tipo === 'signedDocument') { 
-      this.signedDocumentFile = file;
+      } else if (tipo === 'signedDocument') {
+        this.signedDocumentFile = file;
       }
+
+      await this.showToast('Archivo cargado correctamente', 'success');
     }
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+  }
+
+  onDrop(event: DragEvent, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
+    event.preventDefault();
+    this.onFileChange(event, tipo);
   }
 
   hasError(fieldName: string): boolean {
