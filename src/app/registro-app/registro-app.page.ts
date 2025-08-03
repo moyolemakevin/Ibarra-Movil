@@ -210,11 +210,11 @@ signedDocumentFile!: File;
     const files = input.files || event.dataTransfer?.files;
     if (files && files.length > 0) {
       const file = files[0];
-      const allowedExtensions = ['jpg', 'jpeg', 'png'];
+      const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
       const extension = file.name.split('.').pop()?.toLowerCase();
 
       if (!extension || !allowedExtensions.includes(extension)) {
-        await this.showToast('Formato de archivo no permitido. Solo JPG, JPEG o PNG', 'warning');
+        await this.showToast('Formato de archivo no permitido. Solo PDF, JPG o PNG', 'warning');
         if (input) { input.value = ''; }
         return;
       }

@@ -141,48 +141,60 @@
 
           <!-- Fila 5: Archivos -->
           <div class="form-row">
+              <div class="form-field-wrapper">
+                <label class="upload-label">Documento de Identidad <span class="required">*</span></label>
+                <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'identityDocument')">
+                  <ion-icon name="folder-open" class="upload-icon"></ion-icon>
+                  <p>Arrastra tus archivos aquí o haz clic para seleccionar archivos</p>
+                  <input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event, 'identityDocument')" />
+                </div>
+                <div class="file-name" *ngIf="identityDocumentFile">
+                  <ion-icon name="document-outline"></ion-icon>
+                  <span>{{ identityDocumentFile.name }}</span>
+                </div>
+                <div class="upload-info">
+                  <div><ion-icon name="document-text-outline"></ion-icon><span>PDF, JPG, PNG</span></div>
+                  <div><ion-icon name="cloud-upload-outline"></ion-icon><span>2 MB por archivo</span></div>
+                  <div><ion-icon name="resize-outline"></ion-icon><span>Mínimo 800x600 px</span></div>
+                </div>
+              </div>
+
+              <div class="form-field-wrapper">
+                <label class="upload-label">Patente Municipal <span class="required">*</span></label>
+                <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'certificate')">
+                  <ion-icon name="folder-open" class="upload-icon"></ion-icon>
+                  <p>Arrastra tus archivos aquí o haz clic para seleccionar archivos</p>
+                  <input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event, 'certificate')" />
+                </div>
+                <div class="file-name" *ngIf="certificateFile">
+                  <ion-icon name="document-outline"></ion-icon>
+                  <span>{{ certificateFile.name }}</span>
+                </div>
+                <div class="upload-info">
+                  <div><ion-icon name="document-text-outline"></ion-icon><span>PDF, JPG, PNG</span></div>
+                  <div><ion-icon name="cloud-upload-outline"></ion-icon><span>2 MB por archivo</span></div>
+                  <div><ion-icon name="resize-outline"></ion-icon><span>Mínimo 800x600 px</span></div>
+                </div>
+              </div>
+          </div>
+
             <div class="form-field-wrapper">
-              <label class="upload-label">Documento de Identidad <span class="required">*</span></label>
-              <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'identityDocument')">
+              <label class="upload-label">Acuerdo de Comercializacion <span class="required">*</span></label>
+              <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'signedDocument')">
                 <ion-icon name="folder-open" class="upload-icon"></ion-icon>
-                <p>Arrastra tus imágenes aquí o haz clic para seleccionar archivos</p>
-                <input type="file" accept=".jpg,.jpeg,.png" (change)="onFileChange($event, 'identityDocument')" />
+                <p>Arrastra tus archivos aquí o haz clic para seleccionar archivos</p>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event, 'signedDocument')" />
+              </div>
+              <div class="file-name" *ngIf="signedDocumentFile">
+                <ion-icon name="document-outline"></ion-icon>
+                <span>{{ signedDocumentFile.name }}</span>
               </div>
               <div class="upload-info">
-                <div><ion-icon name="images-outline"></ion-icon><span>JPG, JPEG, PNG</span></div>
+                <div><ion-icon name="document-text-outline"></ion-icon><span>PDF, JPG, PNG</span></div>
                 <div><ion-icon name="cloud-upload-outline"></ion-icon><span>2 MB por archivo</span></div>
                 <div><ion-icon name="resize-outline"></ion-icon><span>Mínimo 800x600 px</span></div>
               </div>
             </div>
-
-            <div class="form-field-wrapper">
-              <label class="upload-label">Patente Municipal <span class="required">*</span></label>
-              <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'certificate')">
-                <ion-icon name="folder-open" class="upload-icon"></ion-icon>
-                <p>Arrastra tus imágenes aquí o haz clic para seleccionar archivos</p>
-                <input type="file" accept=".jpg,.jpeg,.png" (change)="onFileChange($event, 'certificate')" />
-              </div>
-              <div class="upload-info">
-                <div><ion-icon name="images-outline"></ion-icon><span>JPG, JPEG, PNG</span></div>
-                <div><ion-icon name="cloud-upload-outline"></ion-icon><span>2 MB por archivo</span></div>
-                <div><ion-icon name="resize-outline"></ion-icon><span>Mínimo 800x600 px</span></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-field-wrapper">
-            <label class="upload-label">Acuerdo de Comercializacion <span class="required">*</span></label>
-            <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onDrop($event, 'signedDocument')">
-              <ion-icon name="folder-open" class="upload-icon"></ion-icon>
-              <p>Arrastra tus imágenes aquí o haz clic para seleccionar archivos</p>
-              <input type="file" accept=".jpg,.jpeg,.png" (change)="onFileChange($event, 'signedDocument')" />
-            </div>
-            <div class="upload-info">
-              <div><ion-icon name="images-outline"></ion-icon><span>JPG, JPEG, PNG</span></div>
-              <div><ion-icon name="cloud-upload-outline"></ion-icon><span>2 MB por archivo</span></div>
-              <div><ion-icon name="resize-outline"></ion-icon><span>Mínimo 800x600 px</span></div>
-            </div>
-          </div>
 
 
       </div>
