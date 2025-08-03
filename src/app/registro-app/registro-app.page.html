@@ -134,55 +134,55 @@
               <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
             </ion-button>
           </ion-item>
-          <div class="error-message" *ngIf="hasError('password')">
-            {{ getErrorMessage('password') }}
+        <div class="error-message" *ngIf="hasError('password')">
+          {{ getErrorMessage('password') }}
+        </div>
+      </div>
+    </div>
+
+      <!-- Fila 5: Archivos -->
+      <div class="form-row">
+        <div class="form-field-wrapper">
+          <label class="file-label">Documento de Identidad <span class="required">*</span></label>
+          <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onFileDrop($event, 'identityDocument')" (click)="identityInput.click()">
+            <ion-icon name="folder-open" class="upload-icon"></ion-icon>
+            <p *ngIf="!identityDocumentFile">Arrastra tu archivo aquí o haz clic para seleccionar</p>
+            <p *ngIf="identityDocumentFile">{{ identityDocumentFile.name }}</p>
+            <input type="file" #identityInput hidden accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event, 'identityDocument')" />
+          </div>
+          <div class="upload-info">
+            <ion-icon name="document-text-outline"></ion-icon>
+            <span>Formatos permitidos: PDF, JPG, PNG</span>
+          </div>
+          <div class="upload-info">
+            <ion-icon name="resize-outline"></ion-icon>
+            <span>Tamaño máximo: 2 MB por archivo</span>
+          </div>
+          <div class="upload-info">
+            <ion-icon name="image-outline"></ion-icon>
+            <span>Resolución recomendada: mínimo 800x600 px</span>
           </div>
         </div>
 
-        <!-- Fila 5: Archivos -->
-        <div class="form-row">
-          <div class="form-field-wrapper">
-            <label class="file-label">Documento de Identidad <span class="required">*</span></label>
-            <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onFileDrop($event, 'identityDocument')" (click)="identityInput.click()">
-              <ion-icon name="folder-open" class="upload-icon"></ion-icon>
-              <p *ngIf="!identityDocumentFile">Arrastra tu archivo aquí o haz clic para seleccionar</p>
-              <p *ngIf="identityDocumentFile">{{ identityDocumentFile.name }}</p>
-              <input type="file" #identityInput hidden accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event, 'identityDocument')" />
-            </div>
-            <div class="upload-info">
-              <ion-icon name="document-text-outline"></ion-icon>
-              <span>Formatos permitidos: PDF, JPG, PNG</span>
-            </div>
-            <div class="upload-info">
-              <ion-icon name="resize-outline"></ion-icon>
-              <span>Tamaño máximo: 2 MB por archivo</span>
-            </div>
-            <div class="upload-info">
-              <ion-icon name="image-outline"></ion-icon>
-              <span>Resolución recomendada: mínimo 800x600 px</span>
-            </div>
+        <div class="form-field-wrapper">
+          <label class="file-label">Patente Municipal <span class="required">*</span></label>
+          <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onFileDrop($event, 'certificate')" (click)="certificateInput.click()">
+            <ion-icon name="folder-open" class="upload-icon"></ion-icon>
+            <p *ngIf="!certificateFile">Arrastra tu archivo aquí o haz clic para seleccionar</p>
+            <p *ngIf="certificateFile">{{ certificateFile.name }}</p>
+            <input type="file" #certificateInput hidden accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event, 'certificate')" />
           </div>
-
-          <div class="form-field-wrapper">
-            <label class="file-label">Patente Municipal <span class="required">*</span></label>
-            <div class="upload-box" (dragover)="onDragOver($event)" (drop)="onFileDrop($event, 'certificate')" (click)="certificateInput.click()">
-              <ion-icon name="folder-open" class="upload-icon"></ion-icon>
-              <p *ngIf="!certificateFile">Arrastra tu archivo aquí o haz clic para seleccionar</p>
-              <p *ngIf="certificateFile">{{ certificateFile.name }}</p>
-              <input type="file" #certificateInput hidden accept=".pdf,.jpg,.jpeg,.png" (change)="onFileChange($event, 'certificate')" />
-            </div>
-            <div class="upload-info">
-              <ion-icon name="document-text-outline"></ion-icon>
-              <span>Formatos permitidos: PDF, JPG, PNG</span>
-            </div>
-            <div class="upload-info">
-              <ion-icon name="resize-outline"></ion-icon>
-              <span>Tamaño máximo: 2 MB por archivo</span>
-            </div>
-            <div class="upload-info">
-              <ion-icon name="image-outline"></ion-icon>
-              <span>Resolución recomendada: mínimo 800x600 px</span>
-            </div>
+          <div class="upload-info">
+            <ion-icon name="document-text-outline"></ion-icon>
+            <span>Formatos permitidos: PDF, JPG, PNG</span>
+          </div>
+          <div class="upload-info">
+            <ion-icon name="resize-outline"></ion-icon>
+            <span>Tamaño máximo: 2 MB por archivo</span>
+          </div>
+          <div class="upload-info">
+            <ion-icon name="image-outline"></ion-icon>
+            <span>Resolución recomendada: mínimo 800x600 px</span>
           </div>
         </div>
 
@@ -207,6 +207,8 @@
             <span>Resolución recomendada: mínimo 800x600 px</span>
           </div>
         </div>
+      </div>
+
       <!-- Botones -->
       <div class="button-container">
         <ion-button expand="block" color="danger" type="submit" [disabled]="!registroForm.valid || isLoading"
