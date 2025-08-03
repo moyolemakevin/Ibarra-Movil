@@ -87,8 +87,9 @@ signedDocumentFile!: File;
     if (!isValid) {
       return;
     }
-    if (!this.identityDocumentFile || !this.certificateFile || !this.signedDocumentFile) {
-      await this.showToast('Debe adjuntar todos los documentos requeridos', 'warning');
+
+    const filesValid = await this.validateFiles();
+    if (!filesValid) {
       return;
     }
 
@@ -115,7 +116,9 @@ signedDocumentFile!: File;
       error: async (err: HttpErrorResponse) => {
         this.isLoading = false;
         let message = 'Error en el servidor';
-        if (err.error?.message) {
+        if (err.status === 413 || err.error?.message?.includes('tamaño máximo')) {
+          message = 'El archivo supera el tamaño máximo permitido de 2 MB';
+        } else if (err.error?.message) {
           message = err.error.message;
         }
         await this.showToast(message, 'danger');
@@ -216,6 +219,7 @@ signedDocumentFile!: File;
       if (!extension || !allowedExtensions.includes(extension)) {
         await this.showToast('Formato de archivo no permitido. Solo PDF, JPG o PNG', 'warning');
         if (input) { input.value = ''; }
+        this.clearFile(tipo);
         return;
       }
 
@@ -223,6 +227,7 @@ signedDocumentFile!: File;
       if (file.size > maxSize) {
         await this.showToast('El archivo supera el tamaño máximo de 2 MB', 'warning');
         if (input) { input.value = ''; }
+        this.clearFile(tipo);
         return;
       }
 
@@ -250,5 +255,46 @@ signedDocumentFile!: File;
   hasError(fieldName: string): boolean {
     const field = this.registroForm.get(fieldName);
     return !!(field?.errors && field.touched);
+  }
+
+  private async validateFiles(): Promise<boolean> {
+    const maxSize = 2 * 1024 * 1024;
+    const allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png'];
+
+    const files = [
+      { file: this.identityDocumentFile, name: 'Documento de Identidad' },
+      { file: this.certificateFile, name: 'Patente Municipal' },
+      { file: this.signedDocumentFile, name: 'Acuerdo de Comercialización' }
+    ];
+
+    for (const item of files) {
+      if (!item.file) {
+        await this.showToast('Debe adjuntar todos los documentos requeridos', 'warning');
+        return false;
+      }
+
+      const extension = item.file.name.split('.').pop()?.toLowerCase();
+      if (!extension || !allowedExtensions.includes(extension)) {
+        await this.showToast(`Formato de archivo no permitido en ${item.name}. Solo PDF, JPG o PNG`, 'warning');
+        return false;
+      }
+
+      if (item.file.size > maxSize) {
+        await this.showToast(`El archivo ${item.name} supera el tamaño máximo de 2 MB`, 'warning');
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private clearFile(tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
+    if (tipo === 'identityDocument') {
+      this.identityDocumentFile = undefined as any;
+    } else if (tipo === 'certificate') {
+      this.certificateFile = undefined as any;
+    } else {
+      this.signedDocumentFile = undefined as any;
+    }
   }
 }
