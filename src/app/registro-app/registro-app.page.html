@@ -140,30 +140,33 @@
         </div>
 
         <!-- Fila 5: Archivos -->
-        <div class="form-row">
-          <div class="form-field-wrapper">
-            <ion-item class="form-field" lines="full">
-              <ion-label position="stacked">Documento de Identidad <span class="required">*</span></ion-label>
-              <input type="file" (change)="onFileChange($event, 'identityDocument')" />
-            </ion-item>
-          </div>
+          <div class="form-row">
+            <div class="form-field-wrapper">
+              <ion-item class="form-field" lines="full">
+                <ion-label position="stacked">Documento de Identidad <span class="required">*</span></ion-label>
+                <input type="file" accept=".pdf,.png,.gpg" (change)="onFileChange($event, 'identityDocument')" />
+              </ion-item>
+              <small class="file-hint">Formatos permitidos: PDF, GPG, PNG. Máximo 2 MB.</small>
+            </div>
 
-          <div class="form-field-wrapper">
-            <ion-item class="form-field" lines="full">
-              <ion-label position="stacked">Patente Municipal <span class="required">*</span></ion-label>
-              <input type="file" (change)="onFileChange($event, 'certificate')" />
-            </ion-item>
+            <div class="form-field-wrapper">
+              <ion-item class="form-field" lines="full">
+                <ion-label position="stacked">Patente Municipal <span class="required">*</span></ion-label>
+                <input type="file" accept=".pdf,.png,.gpg" (change)="onFileChange($event, 'certificate')" />
+              </ion-item>
+              <small class="file-hint">Formatos permitidos: PDF, GPG, PNG. Máximo 2 MB.</small>
+            </div>
           </div>
-        </div>
 
 
        
-        <div class="form-field-wrapper">
-  <ion-item class="form-field" lines="full">
-    <ion-label position="stacked">Acuerdo de Comercializacion <span class="required">*</span></ion-label>
-    <input type="file" (change)="onFileChange($event, 'signedDocument')" />
-  </ion-item>
-</div>
+          <div class="form-field-wrapper">
+    <ion-item class="form-field" lines="full">
+      <ion-label position="stacked">Acuerdo de Comercializacion <span class="required">*</span></ion-label>
+      <input type="file" accept=".pdf,.png,.gpg" (change)="onFileChange($event, 'signedDocument')" />
+    </ion-item>
+    <small class="file-hint">Formatos permitidos: PDF, GPG, PNG. Máximo 2 MB.</small>
+  </div>
 
 
       </div>

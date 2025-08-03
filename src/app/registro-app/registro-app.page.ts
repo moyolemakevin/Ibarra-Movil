@@ -84,7 +84,11 @@ signedDocumentFile!: File;
   }
   async onSubmit() {
     const isValid = await this.validateForm();
-    if (!isValid || !this.identityDocumentFile || !this.certificateFile) {
+    if (!isValid) {
+      return;
+    }
+    if (!this.identityDocumentFile || !this.certificateFile || !this.signedDocumentFile) {
+      await this.showToast('Debe adjuntar todos los documentos requeridos', 'warning');
       return;
     }
 
@@ -201,17 +205,35 @@ signedDocumentFile!: File;
     return labels[fieldName] || fieldName;
   }
 
-  onFileChange(event: Event, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
+  async onFileChange(event: Event, tipo: 'identityDocument' | 'certificate' | 'signedDocument') {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
+      const allowedExtensions = ['pdf', 'png', 'gpg'];
+      const extension = file.name.split('.').pop()?.toLowerCase();
+
+      if (!extension || !allowedExtensions.includes(extension)) {
+        await this.showToast('Formato de archivo no permitido. Solo PDF, GPG o PNG', 'warning');
+        input.value = '';
+        return;
+      }
+
+      const maxSize = 2 * 1024 * 1024;
+      if (file.size > maxSize) {
+        await this.showToast('El archivo supera el tamaño máximo de 2 MB', 'warning');
+        input.value = '';
+        return;
+      }
+
       if (tipo === 'identityDocument') {
         this.identityDocumentFile = file;
       } else if (tipo === 'certificate') {
         this.certificateFile = file;
-        } else if (tipo === 'signedDocument') { 
-      this.signedDocumentFile = file;
+      } else if (tipo === 'signedDocument') {
+        this.signedDocumentFile = file;
       }
+
+      await this.showToast('Archivo cargado correctamente', 'success');
     }
   }
 
