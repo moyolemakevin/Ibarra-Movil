@@ -129,6 +129,9 @@ export class MisNegociosPage implements OnInit {
 
   // Navegar a detalles
   openDetails(businessId: string) {
-    this.router.navigate(['/detalle-negocio', businessId]);
+    // Redirect to the public business details page since a private detail view
+    // does not exist yet. This ensures the "Ver Detalles" button works and
+    // displays the corresponding information for the selected business.
+    this.router.navigate(['/detalle-publico', businessId]);
   }
 }
