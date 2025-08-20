@@ -16,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class NegociosPage implements OnInit {
   negocios: any[] = [];
   categorias: any[] = [];
-  categoriaSeleccionada: string = '';
+  categoriaSeleccionada: string | number = '';
 
   paginaActual = 1;
   totalPaginas = 1;
@@ -33,7 +33,8 @@ export class NegociosPage implements OnInit {
     // Leer parámetro enviado desde Home
     this.route.queryParams.subscribe(params => {
       if (params['categoria']) {
-        this.categoriaSeleccionada = params['categoria'];
+        const param = params['categoria'];
+        this.categoriaSeleccionada = isNaN(Number(param)) ? param : Number(param);
       }
 
       this.cargarNegocios(1);

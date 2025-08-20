@@ -15,13 +15,13 @@ export class NegociosService {
     return this.http.get<any[]>(`${this.apiUrl}/businessCategories/select`);
   }
 
-  getNegocios(categoria: string, pagina: number, limite: number = 5): Observable<any> {
+  getNegocios(categoria: string | number, pagina: number, limite: number = 5): Observable<any> {
     let params = new HttpParams()
       .set('page', pagina.toString())
       .set('size', limite.toString());
 
-    if (categoria) {
-      params = params.set('category', categoria);
+    if (categoria !== '' && categoria !== null && categoria !== undefined) {
+      params = params.set('category', categoria.toString());
     }
 
     return this.http.get<any>(`${this.apiUrl}/business/public/approved`, { params });
