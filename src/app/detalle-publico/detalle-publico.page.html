@@ -159,10 +159,9 @@
               <span>{{ business.parishCommunitySector }}</span>
             </div>
           </div>
-          <button class="map-button" (click)="openMaps()">
-            <span class="map-icon">🗺️</span>
-            <span>Ver en Mapa</span>
-          </button>
+          <div class="location-map" *ngIf="mapUrl">
+            <iframe [src]="mapUrl" width="100%" height="200" style="border:0;" loading="lazy"></iframe>
+          </div>
         </div>
       </div>
 

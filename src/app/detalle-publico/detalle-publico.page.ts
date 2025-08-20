@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BusinessService, Business } from '../services/detalle-publico.service';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-detalle-publico',
@@ -20,10 +21,12 @@ export class DetallePublicoPage implements OnInit {
   loading: boolean = false;
   error: string = '';
   formattedSchedules: { day: string, hours: string }[] = [];
+  mapUrl?: SafeResourceUrl;
 
   constructor(
     private businessService: BusinessService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +63,7 @@ export class DetallePublicoPage implements OnInit {
         console.log('Business loaded:', business);
         this.business = business;
         this.formattedSchedules = this.businessService.formatSchedules(business.schedules);
+        this.mapUrl = this.getMapUrl(business.googleMapsCoordinates);
         this.loading = false;
       },
       error: (error: any) => {
@@ -99,6 +103,7 @@ export class DetallePublicoPage implements OnInit {
           
           if (this.business) {
             this.formattedSchedules = this.businessService.formatSchedules(this.business.schedules);
+            this.mapUrl = this.getMapUrl(this.business.googleMapsCoordinates);
           }
         } else {
           this.error = 'No hay negocios disponibles';
@@ -180,14 +185,6 @@ export class DetallePublicoPage implements OnInit {
     }
   }
 
-  openMaps(): void {
-    if (this.business?.googleMapsCoordinates) {
-      const coords = this.businessService.getCoordinatesArray(this.business.googleMapsCoordinates);
-      const url = `https://www.google.com/maps?q=${coords[0]},${coords[1]}`;
-      window.open(url, '_blank');
-    }
-  }
-
   callPhone(): void {
     if (this.business?.phone) {
       window.open(`tel:${this.business.phone}`, '_self');
@@ -198,6 +195,14 @@ export class DetallePublicoPage implements OnInit {
     if (this.business?.email) {
       window.open(`mailto:${this.business.email}`, '_self');
     }
+  }
+
+  private getMapUrl(coords?: string): SafeResourceUrl | undefined {
+    if (!coords) return undefined;
+    const [lat, lng] = this.businessService.getCoordinatesArray(coords);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`
+    );
   }
 
   // Getters para template
