@@ -132,6 +132,19 @@
   padding: 30px;
 }
 
+/* Business Logo */
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.business-logo {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
 /* Carousel */
 .carousel-container {
   margin-bottom: 30px;
@@ -696,7 +709,7 @@
     left: 10px;
   }
   
-  .carousel-button.next {
-    right: 10px;
-  }
+.carousel-button.next {
+  right: 10px;
+}
 }

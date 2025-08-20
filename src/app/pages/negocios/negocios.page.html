@@ -45,8 +45,8 @@
         
         <!-- Cabecera con imagen -->
         <div class="card-header">
-          <img [src]="negocio.logoUrl || 'assets/icon/default-business.png'" 
-               alt="{{ negocio.commercialName }}" 
+          <img [src]="negocio.logoUrl || negocio.logo || 'assets/icon/default-business.png'"
+               alt="{{ negocio.commercialName }}"
                class="business-image">
         </div>
 
@@ -67,7 +67,7 @@
                 <ion-item lines="none">
                   <ion-icon slot="start" name="location-outline"></ion-icon>
                   <ion-label class="ion-text-wrap">
-                    {{ negocio.address || 'Dirección no especificada' }}
+                    {{ negocio.address || negocio.parishCommunitySector || 'Dirección no especificada' }}
                   </ion-label>
                 </ion-item>
               </ion-col>
@@ -89,7 +89,7 @@
                 <ion-item lines="none">
                   <ion-icon slot="start" name="pricetag-outline"></ion-icon>
                   <ion-label class="ion-text-wrap">
-                    {{ negocio.category?.name || 'Sin categoría' }}
+                    {{ negocio.category?.name || negocio.categoryName || 'Sin categoría' }}
                   </ion-label>
                 </ion-item>
               </ion-col>

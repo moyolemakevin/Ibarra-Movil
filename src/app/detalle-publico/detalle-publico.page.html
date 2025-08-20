@@ -26,7 +26,14 @@
 
     <!-- Content -->
     <div *ngIf="!loading && !error && business" class="modal-content">
-      
+
+      <!-- Business Logo -->
+      <div class="logo-container">
+        <img [src]="business.logoUrl || business.logo || 'assets/icon/default-business.png'"
+             [alt]="business.commercialName"
+             class="business-logo">
+      </div>
+
       <!-- Image Carousel -->
       <div class="carousel-container">
         <div class="carousel-header">
@@ -68,7 +75,7 @@
       <!-- Description -->
       <div class="form-group">
         <label class="form-label">Descripción</label>
-        <div class="textarea-display">{{ business.description }}</div>
+        <div class="textarea-display">{{ business.description || 'Sin descripción' }}</div>
       </div>
 
       <!-- Schedules and Social Media Row -->
@@ -113,7 +120,7 @@
       </div>
 
       <!-- Contact Information -->
-      <div class="form-group">
+      <div class="form-group" *ngIf="hasContactInfo">
         <label class="form-label">Información de Contacto</label>
         <div class="contact-container">
           <div class="contact-item" *ngIf="business.phone">
@@ -152,7 +159,7 @@
           <div class="location-info">
             <div class="address">
               <span class="location-icon">📍</span>
-              <span>{{ business.address }}</span>
+              <span>{{ business.address || business.parishCommunitySector || 'Dirección no especificada' }}</span>
             </div>
             <div class="sector" *ngIf="business.parishCommunitySector">
               <span class="sector-label">Sector:</span>
@@ -188,7 +195,7 @@
           <div class="info-icon">🏷️</div>
           <div class="info-content">
             <h4>Categoría</h4>
-            <p>{{ business.category.name }}</p>
+            <p>{{ categoryName }}</p>
           </div>
         </div>
       </div>

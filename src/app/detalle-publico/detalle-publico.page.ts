@@ -59,7 +59,7 @@ export class DetallePublicoPage implements OnInit {
       next: (business: Business) => {
         console.log('Business loaded:', business);
         this.business = business;
-        this.formattedSchedules = this.businessService.formatSchedules(business.schedules);
+        this.formattedSchedules = this.businessService.formatSchedules(business.schedules || []);
         this.loading = false;
       },
       error: (error: any) => {
@@ -98,7 +98,7 @@ export class DetallePublicoPage implements OnInit {
           }
           
           if (this.business) {
-            this.formattedSchedules = this.businessService.formatSchedules(this.business.schedules);
+            this.formattedSchedules = this.businessService.formatSchedules(this.business.schedules || []);
           }
         } else {
           this.error = 'No hay negocios disponibles';
@@ -124,21 +124,23 @@ export class DetallePublicoPage implements OnInit {
 
   // Métodos para el carrusel de imágenes
   nextImage(): void {
-    if (this.business && this.business.photos.length > 0) {
+    if (this.business?.photos && this.business.photos.length > 0) {
       this.currentImageIndex = (this.currentImageIndex + 1) % this.business.photos.length;
     }
   }
 
   prevImage(): void {
-    if (this.business && this.business.photos.length > 0) {
-      this.currentImageIndex = this.currentImageIndex === 0 
-        ? this.business.photos.length - 1 
+    if (this.business?.photos && this.business.photos.length > 0) {
+      this.currentImageIndex = this.currentImageIndex === 0
+        ? this.business.photos.length - 1
         : this.currentImageIndex - 1;
     }
   }
 
   selectImage(index: number): void {
-    this.currentImageIndex = index;
+    if (this.business?.photos && index >= 0 && index < this.business.photos.length) {
+      this.currentImageIndex = index;
+    }
   }
 
   // Métodos de utilidad
@@ -202,16 +204,20 @@ export class DetallePublicoPage implements OnInit {
 
   // Getters para template
   get currentImage(): string {
-    return this.business?.photos[this.currentImageIndex] || '';
+    return this.business?.photos && this.business.photos.length > 0
+      ? this.business.photos[this.currentImageIndex]
+      : '';
   }
 
   get hasMultipleImages(): boolean {
-    return this.business ? this.business.photos.length > 1 : false;
+    return !!(this.business?.photos && this.business.photos.length > 1);
   }
 
   get deliveryText(): string {
     if (!this.business) return '';
-    return this.business.deliveryService === 'SI' ? 'Servicio de delivery disponible' : 'Sin servicio de delivery';
+    return this.business.deliveryService === 'SI'
+      ? 'Servicio de delivery disponible'
+      : 'Sin servicio de delivery';
   }
 
   get salePlaceText(): string {
@@ -221,10 +227,19 @@ export class DetallePublicoPage implements OnInit {
       'DELIVERY': 'Solo delivery',
       'AMBOS': 'Local físico y delivery'
     };
-    return places[this.business.salePlace] || this.business.salePlace;
+    const place = this.business.salePlace;
+    return place ? (places[place] || place) : 'Tipo de venta no especificado';
   }
 
   get businessName(): string {
     return this.business?.commercialName || '';
+  }
+
+  get categoryName(): string {
+    return this.business?.category?.name || 'Sin categoría';
+  }
+
+  get hasContactInfo(): boolean {
+    return !!(this.business?.phone || this.business?.email || this.business?.whatsappNumber);
   }
 }
