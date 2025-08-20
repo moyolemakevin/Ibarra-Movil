@@ -200,6 +200,14 @@ export class DetallePublicoPage implements OnInit {
     }
   }
 
+  getWhatsappLink(number?: string): string {
+    if (!number) {
+      return '';
+    }
+    const clean = number.replace(/\D/g, '');
+    return `https://wa.me/${clean}`;
+  }
+
   // Getters para template
   get currentImage(): string {
     return this.business?.photos[this.currentImageIndex] || '';
