@@ -172,14 +172,6 @@ export class DetallePublicoPage implements OnInit {
     }
   }
 
-  openWhatsApp(): void {
-    if (this.business?.whatsappNumber) {
-      const cleanNumber = this.business.whatsappNumber.replace(/\D/g, '');
-      const url = `https://wa.me/${cleanNumber}`;
-      window.open(url, '_blank');
-    }
-  }
-
   openMaps(): void {
     if (this.business?.googleMapsCoordinates) {
       const coords = this.businessService.getCoordinatesArray(this.business.googleMapsCoordinates);
@@ -226,5 +218,20 @@ export class DetallePublicoPage implements OnInit {
 
   get businessName(): string {
     return this.business?.commercialName || '';
+  }
+
+  get whatsappLink(): string {
+    if (!this.business?.whatsappNumber) return '';
+    const cleanNumber = this.business.whatsappNumber.replace(/\D/g, '');
+    return `https://wa.me/${cleanNumber}`;
+  }
+
+  get categoryName(): string {
+    if (!this.business) return '';
+    const category = (this.business as any).category;
+    if (typeof category === 'string') {
+      return category;
+    }
+    return category?.name || '';
   }
 }
