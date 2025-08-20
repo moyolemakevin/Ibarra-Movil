@@ -31,6 +31,8 @@ export interface Business {
   deliveryService: string;
   salePlace: string;
   category: BusinessCategory;
+  representativeName?: string;
+  identificationNumber?: string;
 }
 
 export interface BusinessResponse {
@@ -105,12 +107,13 @@ export class BusinessService {
 
   // Método para endpoint específico público (respuesta directa)
   getBusinessByIdPublic(id: number): Observable<Business> {
-    const url = `${this.businessUrl}/public/${id}`;
+    const url = `${this.businessUrl}/public-details`;
+    const params = new HttpParams().set('id', id.toString());
     console.log('=== API CALL ===');
     console.log('URL:', url);
     console.log('Business ID:', id);
-    
-    return this.http.get<Business>(url)
+
+    return this.http.get<Business>(url, { params })
       .pipe(
         map(response => {
           console.log('=== API RESPONSE ===');
