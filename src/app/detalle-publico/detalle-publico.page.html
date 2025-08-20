@@ -71,6 +71,12 @@
         <div class="textarea-display">{{ business.description }}</div>
       </div>
 
+      <!-- Category -->
+      <div class="form-group">
+        <label class="form-label">Categoría</label>
+        <div class="input-display">{{ business.category?.name || 'No disponible' }}</div>
+      </div>
+
       <!-- Schedules and Social Media Row -->
       <div class="form-row">
         <!-- Schedules -->
@@ -138,7 +144,11 @@
             <div class="contact-icon">💬</div>
             <div class="contact-info">
               <span class="contact-label">WhatsApp</span>
-              <span class="contact-value">{{ business.whatsappNumber }}</span>
+              <span class="contact-value">
+                <a [href]="getWhatsappLink(business.whatsappNumber)" target="_blank">
+                  {{ business.whatsappNumber }}
+                </a>
+              </span>
             </div>
             <button class="contact-button whatsapp" (click)="openWhatsApp()">Chatear</button>
           </div>
