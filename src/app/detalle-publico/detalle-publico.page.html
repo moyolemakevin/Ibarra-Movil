@@ -185,10 +185,18 @@
         </div>
         
         <div class="info-card">
-          <div class="info-icon">🏷️</div>
+          <div class="info-icon">📞</div>
           <div class="info-content">
-            <h4>Categoría</h4>
-            <p>{{ business.category.name }}</p>
+            <h4>Número celular</h4>
+            <p>{{ business.phone || 'No disponible' }}</p>
+          </div>
+        </div>
+
+        <div class="info-card" *ngIf="business.whatsappNumber">
+          <div class="info-icon">💬</div>
+          <div class="info-content">
+            <h4>WhatsApp</h4>
+            <p>{{ business.whatsappNumber }}</p>
           </div>
         </div>
       </div>
