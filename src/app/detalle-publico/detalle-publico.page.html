@@ -65,6 +65,18 @@
         <div class="input-display">{{ business.commercialName }}</div>
       </div>
 
+      <!-- Representative -->
+      <div class="form-group" *ngIf="business.representativeName">
+        <label class="form-label">Representante</label>
+        <div class="input-display">{{ business.representativeName }}</div>
+      </div>
+
+      <!-- Identification Number -->
+      <div class="form-group" *ngIf="business.identificationNumber">
+        <label class="form-label">RUC</label>
+        <div class="input-display">{{ business.identificationNumber }}</div>
+      </div>
+
       <!-- Description -->
       <div class="form-group">
         <label class="form-label">Descripción</label>
@@ -138,9 +150,11 @@
             <div class="contact-icon">💬</div>
             <div class="contact-info">
               <span class="contact-label">WhatsApp</span>
-              <span class="contact-value">{{ business.whatsappNumber }}</span>
+              <span class="contact-value">
+                <a [href]="whatsappLink" target="_blank">{{ business.whatsappNumber }}</a>
+              </span>
             </div>
-            <button class="contact-button whatsapp" (click)="openWhatsApp()">Chatear</button>
+            <a [href]="whatsappLink" target="_blank" class="contact-button whatsapp">Chatear</a>
           </div>
         </div>
       </div>
@@ -184,11 +198,11 @@
           </div>
         </div>
         
-        <div class="info-card">
+        <div class="info-card" *ngIf="categoryName">
           <div class="info-icon">🏷️</div>
           <div class="info-content">
             <h4>Categoría</h4>
-            <p>{{ business.category.name }}</p>
+            <p>{{ categoryName }}</p>
           </div>
         </div>
       </div>
