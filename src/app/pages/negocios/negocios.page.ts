@@ -101,8 +101,17 @@ export class NegociosPage implements OnInit {
       this.cargarNegocios(this.paginaActual + 1);
     }
   }
- verDetalles(negocio: any) {
-  // Navegar a la página de detalles con el ID del negocio
-  this.router.navigate(['/detalle-publico', negocio.id]);
-}
+
+  verDetalles(negocio: any) {
+    // Navegar a la página de detalles con el ID del negocio
+    this.router.navigate(['/detalle-publico', negocio.id]);
+  }
+
+  getWhatsappLink(number?: string): string {
+    if (!number) {
+      return '';
+    }
+    const clean = number.replace(/\D/g, '');
+    return `https://wa.me/${clean}`;
+  }
 }
