@@ -1,13 +1,15 @@
 <ion-card class="business-card">
   <ion-card-header>
     <ion-card-title>{{ business.commercialName }}</ion-card-title>
-    <ion-card-subtitle>{{ business.categoryName }}</ion-card-subtitle>
+    <ion-card-subtitle>{{ business.category?.name }}</ion-card-subtitle>
   </ion-card-header>
 
   <ion-card-content>
     <p><strong>Representante:</strong> {{ business.representativeName }}</p>
     <p><strong>RUC:</strong> {{ business.identificationNumber }}</p>
     <p><strong>Teléfono:</strong> {{ business.phone || 'No especificado' }}</p>
+    <p><strong>WhatsApp:</strong> {{ business.whatsappNumber || 'No especificado' }}</p>
+    <p><strong>Dirección:</strong> {{ business.address || 'No especificada' }}</p>
     
     <div class="actions">
       <ion-button fill="clear" size="small" [routerLink]="['/editar-negocio', business.id]">
