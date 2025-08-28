@@ -14,7 +14,7 @@
   </div>
 
   <div *ngIf="error" class="error-container">
-    <div class="error-icon">⚠️</div>
+    <ion-icon class="error-icon" name="warning-outline"></ion-icon>
     <p>{{ error }}</p>
     <button class="retry-button" (click)="loadBusinessDetails()">Reintentar</button>
   </div>
@@ -30,7 +30,7 @@
       <div class="header-info">
         <h1 class="business-title">{{ business.commercialName }}</h1>
         <p class="representative" *ngIf="business.representativeName">
-          <span class="rep-icon">👤</span>
+          <ion-icon class="rep-icon" name="person-circle-outline"></ion-icon>
           {{ business.representativeName }}
         </p>
         <div class="status-badge" 
@@ -44,7 +44,7 @@
     </div>
 
     <div *ngIf="business.validationStatus === 'REJECTED'" class="rejection-notice">
-      <div class="rejection-icon">⚠️</div>
+      <ion-icon class="rejection-icon" name="warning-outline"></ion-icon>
       <div class="rejection-text">
         <h4>Negocio Rechazado</h4>
         <p>Tu negocio fue rechazado durante la validación. Puedes editarlo para corregir los datos y será revisado nuevamente.</p>
@@ -53,17 +53,21 @@
 
     <div class="carousel-container" *ngIf="business.photos && business.photos.length > 0">
       <div class="carousel-header">
-        <h3>📷 Imágenes del Negocio</h3>
+        <h3><ion-icon name="images-outline"></ion-icon> Imágenes del Negocio</h3>
       </div>
-      
+
       <div class="carousel-wrapper">
         <div class="carousel-main">
-          <button class="carousel-button prev" (click)="prevImage()" *ngIf="hasMultipleImages">‹</button>
+          <button class="carousel-button prev" (click)="prevImage()" *ngIf="hasMultipleImages">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
           <div class="image-container">
-            <img [src]="currentImage" [alt]="business.commercialName" class="carousel-image" 
+            <img [src]="currentImage" [alt]="business.commercialName" class="carousel-image"
                  (error)="handleImageError($event, 'carousel')">
           </div>
-          <button class="carousel-button next" (click)="nextImage()" *ngIf="hasMultipleImages">›</button>
+          <button class="carousel-button next" (click)="nextImage()" *ngIf="hasMultipleImages">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
         </div>
         
         <div class="carousel-indicators" *ngIf="hasMultipleImages">
@@ -78,18 +82,18 @@
     </div>
 
     <div class="no-images" *ngIf="!business.photos || business.photos.length === 0">
-      <div class="no-images-icon">📷</div>
+      <ion-icon class="no-images-icon" name="images-outline"></ion-icon>
       <p>No hay imágenes disponibles</p>
     </div>
 
     <div class="form-group">
-      <label class="form-label">📝 Descripción</label>
+      <label class="form-label"><ion-icon name="document-text-outline"></ion-icon> Descripción</label>
       <div class="textarea-display">{{ business.description || 'Sin descripción disponible' }}</div>
     </div>
 
     <div class="form-row">
       <div class="form-group half-width" *ngIf="formattedSchedules.length > 0">
-        <label class="form-label">🕐 Horarios de Atención</label>
+        <label class="form-label"><ion-icon name="time-outline"></ion-icon> Horarios de Atención</label>
         <div class="schedules-container">
           <div class="schedule-item" *ngFor="let schedule of formattedSchedules">
             <span class="day">{{ schedule.day }}</span>
@@ -100,25 +104,25 @@
 
       <div class="form-group half-width" 
            *ngIf="business.facebook || business.instagram || business.tiktok || business.website">
-        <label class="form-label">📱 Redes Sociales</label>
+        <label class="form-label"><ion-icon name="share-social-outline"></ion-icon> Redes Sociales</label>
         <div class="social-media-container">
           <div class="social-item" *ngIf="business.instagram">
-            <span class="social-icon">📷</span>
+            <ion-icon class="social-icon" name="logo-instagram"></ion-icon>
             <span class="social-label">Instagram</span>
             <button class="social-button" (click)="openSocialMedia('instagram')">Ver</button>
           </div>
           <div class="social-item" *ngIf="business.facebook">
-            <span class="social-icon">📘</span>
+            <ion-icon class="social-icon" name="logo-facebook"></ion-icon>
             <span class="social-label">Facebook</span>
             <button class="social-button" (click)="openSocialMedia('facebook')">Ver</button>
           </div>
           <div class="social-item" *ngIf="business.tiktok">
-            <span class="social-icon">🎵</span>
+            <ion-icon class="social-icon" name="logo-tiktok"></ion-icon>
             <span class="social-label">TikTok</span>
             <button class="social-button" (click)="openSocialMedia('tiktok')">Ver</button>
           </div>
           <div class="social-item" *ngIf="business.website">
-            <span class="social-icon">🌐</span>
+            <ion-icon class="social-icon" name="globe-outline"></ion-icon>
             <span class="social-label">Sitio Web</span>
             <button class="social-button" (click)="openSocialMedia('website')">Visitar</button>
           </div>
@@ -127,28 +131,28 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">📞 Información de Contacto</label>
+      <label class="form-label"><ion-icon name="call-outline"></ion-icon> Información de Contacto</label>
       <div class="contact-container">
         <div class="contact-item" *ngIf="business.phone">
-          <div class="contact-icon">📞</div>
+          <ion-icon class="contact-icon" name="call-outline"></ion-icon>
           <div class="contact-info">
             <span class="contact-label">Teléfono</span>
             <span class="contact-value">{{ business.phone }}</span>
           </div>
           <button class="contact-button" (click)="callPhone()">Llamar</button>
         </div>
-        
+
         <div class="contact-item" *ngIf="business.email">
-          <div class="contact-icon">📧</div>
+          <ion-icon class="contact-icon" name="mail-outline"></ion-icon>
           <div class="contact-info">
             <span class="contact-label">Email</span>
             <span class="contact-value">{{ business.email }}</span>
           </div>
           <button class="contact-button" (click)="sendEmail()">Escribir</button>
         </div>
-        
+
         <div class="contact-item" *ngIf="business.whatsappNumber">
-          <div class="contact-icon">💬</div>
+          <ion-icon class="contact-icon" name="logo-whatsapp"></ion-icon>
           <div class="contact-info">
             <span class="contact-label">WhatsApp</span>
             <span class="contact-value">{{ business.whatsappNumber }}</span>
@@ -159,11 +163,11 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">📍 Ubicación</label>
+      <label class="form-label"><ion-icon name="location-outline"></ion-icon> Ubicación</label>
       <div class="location-container">
         <div class="location-info">
           <div class="address">
-            <span class="location-icon">📍</span>
+            <ion-icon class="location-icon" name="location-outline"></ion-icon>
             <span>{{ business.address || 'Dirección no especificada' }}</span>
           </div>
           <div class="sector" *ngIf="business.parishCommunitySector">
@@ -172,7 +176,7 @@
           </div>
         </div>
         <button class="map-button" (click)="openMaps()" *ngIf="business.googleMapsCoordinates">
-          <span class="map-icon">🗺️</span>
+          <ion-icon class="map-icon" name="map-outline"></ion-icon>
           <span>Ver en Mapa</span>
         </button>
       </div>
@@ -180,7 +184,7 @@
 
     <div class="form-row">
       <div class="info-card">
-        <div class="info-icon">🏪</div>
+        <ion-icon class="info-icon" name="business-outline"></ion-icon>
         <div class="info-content">
           <h4>Tipo de Venta</h4>
           <p>{{ salePlaceText }}</p>
@@ -188,7 +192,7 @@
       </div>
       
       <div class="info-card">
-        <div class="info-icon">🚚</div>
+        <ion-icon class="info-icon" name="car-outline"></ion-icon>
         <div class="info-content">
           <h4>Delivery</h4>
           <p>{{ deliveryText }}</p>
@@ -196,7 +200,7 @@
       </div>
       
       <div class="info-card" *ngIf="business.category">
-        <div class="info-icon">🏷️</div>
+        <ion-icon class="info-icon" name="pricetag-outline"></ion-icon>
         <div class="info-content">
           <h4>Categoría</h4>
           <p>{{ business.category.name || 'Sin categoría' }}</p>
@@ -206,7 +210,7 @@
 
     <div class="form-group" *ngIf="business.acceptsWhatsappOrders">
       <div class="whatsapp-orders">
-        <div class="whatsapp-icon">✅</div>
+        <ion-icon class="whatsapp-icon" name="checkmark-circle-outline"></ion-icon>
         <div class="whatsapp-text">
           <h4>Pedidos por WhatsApp</h4>
           <p>Este negocio acepta pedidos a través de WhatsApp</p>
@@ -218,20 +222,20 @@
       <h3 class="action-title">Opciones del Negocio</h3>
       <div class="action-buttons-grid">
         <button class="action-btn cancel-btn" (click)="goBack()">
-          <span class="btn-icon">↩️</span>
+          <ion-icon class="btn-icon" name="arrow-undo-outline"></ion-icon>
           <span>Volver</span>
         </button>
         <button class="action-btn edit-btn" (click)="openAdminModal()" [disabled]="!canEditBusiness()">
-          <span class="btn-icon">✏️</span>
+          <ion-icon class="btn-icon" name="create-outline"></ion-icon>
           <span>{{ editButtonText }}</span>
         </button>
         <button class="action-btn delete-btn" (click)="openDeleteFunctionality()">
-          <span class="btn-icon">🗑️</span>
+          <ion-icon class="btn-icon" name="trash-outline"></ion-icon>
           <span>Solicitar Eliminacion</span>
           <small class="btn-subtitle">Próximamente</small>
         </button>
         <button class="action-btn admin-btn" (click)="openAdministrationPanel()">
-          <span class="btn-icon">⚙️</span>
+          <ion-icon class="btn-icon" name="settings-outline"></ion-icon>
           <span>Administrar negocio</span>
           <small class="btn-subtitle">Próximamente</small>
         </button>
@@ -242,7 +246,7 @@
   <div class="modal-overlay" *ngIf="showAdminModal" (click)="closeAdminModal()">
     <div class="modal-container" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2 class="modal-title">✏️ {{ business?.validationStatus === 'REJECTED' ? 'Corregir Negocio' : 'Editar Negocio' }}</h2>
+        <h2 class="modal-title"><ion-icon name="create-outline"></ion-icon> {{ business?.validationStatus === 'REJECTED' ? 'Corregir Negocio' : 'Editar Negocio' }}</h2>
         <p class="modal-subtitle" *ngIf="business?.validationStatus === 'REJECTED'">
           Corrige los datos de tu negocio para una nueva validación
         </p>
