@@ -1,352 +1,350 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button (click)="goBack()"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Detalles del Negocio</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="detail-modal-overlay" (click)="goBack()">
+  <div class="detail-modal-container" (click)="$event.stopPropagation()">
+    <div class="detail-modal-header">
+      <h2 class="detail-modal-title">Detalles del Negocio</h2>
+      <p class="detail-modal-subtitle">Información completa del emprendimiento</p>
+      <button class="detail-close-button" (click)="goBack()">
+        <span>&times;</span>
+      </button>
+    </div>
 
-<ion-content [fullscreen]="true">
-  <div *ngIf="loading" class="loading-container">
-    <div class="loading-spinner"></div>
-    <p>Cargando detalles del negocio...</p>
-  </div>
+    <div *ngIf="loading" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Cargando detalles del negocio...</p>
+    </div>
 
-  <div *ngIf="error" class="error-container">
-    <div class="error-icon">⚠️</div>
-    <p>{{ error }}</p>
-    <button class="retry-button" (click)="loadBusinessDetails()">Reintentar</button>
-  </div>
+    <div *ngIf="error" class="error-container">
+      <div class="error-icon">⚠️</div>
+      <p>{{ error }}</p>
+      <button class="retry-button" (click)="loadBusinessDetails()">Reintentar</button>
+    </div>
 
-  <div *ngIf="!loading && !error && business" class="business-content">
-    
-    <div class="business-header">
-      <div class="logo-container" *ngIf="business.logoUrl">
-        <img [src]="business.logoUrl" [alt]="business.commercialName" class="business-logo"
-             (error)="handleImageError($event, 'logo')"/>
-      </div>
-      
-      <div class="header-info">
-        <h1 class="business-title">{{ business.commercialName }}</h1>
-        <p class="representative" *ngIf="business.representativeName">
-          <span class="rep-icon">👤</span>
-          {{ business.representativeName }}
-        </p>
-        <div class="status-badge" 
-             [class.validated]="business.validationStatus === 'VALIDATED'" 
-             [class.pending]="business.validationStatus === 'PENDING'"
-             [class.rejected]="business.validationStatus === 'REJECTED'">
-          {{ business.validationStatus === 'VALIDATED' ? 'Validado' : 
-             business.validationStatus === 'PENDING' ? 'Pendiente' : 'Rechazado' }}
+    <div *ngIf="!loading && !error && business" class="detail-modal-content">
+
+      <div class="business-header">
+        <div class="logo-container" *ngIf="business.logoUrl">
+          <img [src]="business.logoUrl" [alt]="business.commercialName" class="business-logo"
+               (error)="handleImageError($event, 'logo')"/>
         </div>
-      </div>
-    </div>
 
-    <div *ngIf="business.validationStatus === 'REJECTED'" class="rejection-notice">
-      <div class="rejection-icon">⚠️</div>
-      <div class="rejection-text">
-        <h4>Negocio Rechazado</h4>
-        <p>Tu negocio fue rechazado durante la validación. Puedes editarlo para corregir los datos y será revisado nuevamente.</p>
-      </div>
-    </div>
-
-    <div class="carousel-container" *ngIf="business.photos && business.photos.length > 0">
-      <div class="carousel-header">
-        <h3>📷 Imágenes del Negocio</h3>
-      </div>
-      
-      <div class="carousel-wrapper">
-        <div class="carousel-main">
-          <button class="carousel-button prev" (click)="prevImage()" *ngIf="hasMultipleImages">‹</button>
-          <div class="image-container">
-            <img [src]="currentImage" [alt]="business.commercialName" class="carousel-image" 
-                 (error)="handleImageError($event, 'carousel')">
+        <div class="header-info">
+          <h1 class="business-title">{{ business.commercialName }}</h1>
+          <p class="representative" *ngIf="business.representativeName">
+            <span class="rep-icon">👤</span>
+            {{ business.representativeName }}
+          </p>
+          <div class="status-badge"
+               [class.validated]="business.validationStatus === 'VALIDATED'"
+               [class.pending]="business.validationStatus === 'PENDING'"
+               [class.rejected]="business.validationStatus === 'REJECTED'">
+            {{ business.validationStatus === 'VALIDATED' ? 'Validado' :
+               business.validationStatus === 'PENDING' ? 'Pendiente' : 'Rechazado' }}
           </div>
-          <button class="carousel-button next" (click)="nextImage()" *ngIf="hasMultipleImages">›</button>
         </div>
-        
-        <div class="carousel-indicators" *ngIf="hasMultipleImages">
-          <button 
-            *ngFor="let photo of business.photos; let i = index" 
-            class="indicator"
-            [class.active]="i === currentImageIndex"
-            (click)="selectImage(i)">
+      </div>
+
+      <div *ngIf="business.validationStatus === 'REJECTED'" class="rejection-notice">
+        <div class="rejection-icon">⚠️</div>
+        <div class="rejection-text">
+          <h4>Negocio Rechazado</h4>
+          <p>Tu negocio fue rechazado durante la validación. Puedes editarlo para corregir los datos y será revisado nuevamente.</p>
+        </div>
+      </div>
+
+      <div class="carousel-container" *ngIf="business.photos && business.photos.length > 0">
+        <div class="carousel-header">
+          <h3>📷 Imágenes del Negocio</h3>
+        </div>
+
+        <div class="carousel-wrapper">
+          <div class="carousel-main">
+            <button class="carousel-button prev" (click)="prevImage()" *ngIf="hasMultipleImages">‹</button>
+            <div class="image-container">
+              <img [src]="currentImage" [alt]="business.commercialName" class="carousel-image"
+                   (error)="handleImageError($event, 'carousel')">
+            </div>
+            <button class="carousel-button next" (click)="nextImage()" *ngIf="hasMultipleImages">›</button>
+          </div>
+
+          <div class="carousel-indicators" *ngIf="hasMultipleImages">
+            <button
+              *ngFor="let photo of business.photos; let i = index"
+              class="indicator"
+              [class.active]="i === currentImageIndex"
+              (click)="selectImage(i)">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-images" *ngIf="!business.photos || business.photos.length === 0">
+        <div class="no-images-icon">📷</div>
+        <p>No hay imágenes disponibles</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">📝 Descripción</label>
+        <div class="textarea-display">{{ business.description || 'Sin descripción disponible' }}</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width" *ngIf="formattedSchedules.length > 0">
+          <label class="form-label">🕐 Horarios de Atención</label>
+          <div class="schedules-container">
+            <div class="schedule-item" *ngFor="let schedule of formattedSchedules">
+              <span class="day">{{ schedule.day }}</span>
+              <span class="hours" [class.closed]="schedule.hours === 'Cerrado'">{{ schedule.hours }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group half-width"
+             *ngIf="business.facebook || business.instagram || business.tiktok || business.website">
+          <label class="form-label">📱 Redes Sociales</label>
+          <div class="social-media-container">
+            <div class="social-item" *ngIf="business.instagram">
+              <span class="social-icon">📷</span>
+              <span class="social-label">Instagram</span>
+              <button class="social-button" (click)="openSocialMedia('instagram')">Ver</button>
+            </div>
+            <div class="social-item" *ngIf="business.facebook">
+              <span class="social-icon">📘</span>
+              <span class="social-label">Facebook</span>
+              <button class="social-button" (click)="openSocialMedia('facebook')">Ver</button>
+            </div>
+            <div class="social-item" *ngIf="business.tiktok">
+              <span class="social-icon">🎵</span>
+              <span class="social-label">TikTok</span>
+              <button class="social-button" (click)="openSocialMedia('tiktok')">Ver</button>
+            </div>
+            <div class="social-item" *ngIf="business.website">
+              <span class="social-icon">🌐</span>
+              <span class="social-label">Sitio Web</span>
+              <button class="social-button" (click)="openSocialMedia('website')">Visitar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">📞 Información de Contacto</label>
+        <div class="contact-container">
+          <div class="contact-item" *ngIf="business.phone">
+            <div class="contact-icon">📞</div>
+            <div class="contact-info">
+              <span class="contact-label">Teléfono</span>
+              <span class="contact-value">{{ business.phone }}</span>
+            </div>
+            <button class="contact-button" (click)="callPhone()">Llamar</button>
+          </div>
+
+          <div class="contact-item" *ngIf="business.email">
+            <div class="contact-icon">📧</div>
+            <div class="contact-info">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">{{ business.email }}</span>
+            </div>
+            <button class="contact-button" (click)="sendEmail()">Escribir</button>
+          </div>
+
+          <div class="contact-item" *ngIf="business.whatsappNumber">
+            <div class="contact-icon">💬</div>
+            <div class="contact-info">
+              <span class="contact-label">WhatsApp</span>
+              <span class="contact-value">{{ business.whatsappNumber }}</span>
+            </div>
+            <button class="contact-button whatsapp" (click)="openWhatsApp()">Chatear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">📍 Ubicación</label>
+        <div class="location-container">
+          <div class="location-info">
+            <div class="address">
+              <span class="location-icon">📍</span>
+              <span>{{ business.address || 'Dirección no especificada' }}</span>
+            </div>
+            <div class="sector" *ngIf="business.parishCommunitySector">
+              <span class="sector-label">Sector:</span>
+              <span>{{ business.parishCommunitySector }}</span>
+            </div>
+          </div>
+          <button class="map-button" (click)="openMaps()" *ngIf="business.googleMapsCoordinates">
+            <span class="map-icon">🗺️</span>
+            <span>Ver en Mapa</span>
           </button>
         </div>
       </div>
-    </div>
 
-    <div class="no-images" *ngIf="!business.photos || business.photos.length === 0">
-      <div class="no-images-icon">📷</div>
-      <p>No hay imágenes disponibles</p>
-    </div>
+      <div class="form-row">
+        <div class="info-card">
+          <div class="info-icon">🏪</div>
+          <div class="info-content">
+            <h4>Tipo de Venta</h4>
+            <p>{{ salePlaceText }}</p>
+          </div>
+        </div>
 
-    <div class="form-group">
-      <label class="form-label">📝 Descripción</label>
-      <div class="textarea-display">{{ business.description || 'Sin descripción disponible' }}</div>
-    </div>
+        <div class="info-card">
+          <div class="info-icon">🚚</div>
+          <div class="info-content">
+            <h4>Delivery</h4>
+            <p>{{ deliveryText }}</p>
+          </div>
+        </div>
 
-    <div class="form-row">
-      <div class="form-group half-width" *ngIf="formattedSchedules.length > 0">
-        <label class="form-label">🕐 Horarios de Atención</label>
-        <div class="schedules-container">
-          <div class="schedule-item" *ngFor="let schedule of formattedSchedules">
-            <span class="day">{{ schedule.day }}</span>
-            <span class="hours" [class.closed]="schedule.hours === 'Cerrado'">{{ schedule.hours }}</span>
+        <div class="info-card" *ngIf="business.category">
+          <div class="info-icon">🏷️</div>
+          <div class="info-content">
+            <h4>Categoría</h4>
+            <p>{{ business.category.name || 'Sin categoría' }}</p>
           </div>
         </div>
       </div>
 
-      <div class="form-group half-width" 
-           *ngIf="business.facebook || business.instagram || business.tiktok || business.website">
-        <label class="form-label">📱 Redes Sociales</label>
-        <div class="social-media-container">
-          <div class="social-item" *ngIf="business.instagram">
-            <span class="social-icon">📷</span>
-            <span class="social-label">Instagram</span>
-            <button class="social-button" (click)="openSocialMedia('instagram')">Ver</button>
-          </div>
-          <div class="social-item" *ngIf="business.facebook">
-            <span class="social-icon">📘</span>
-            <span class="social-label">Facebook</span>
-            <button class="social-button" (click)="openSocialMedia('facebook')">Ver</button>
-          </div>
-          <div class="social-item" *ngIf="business.tiktok">
-            <span class="social-icon">🎵</span>
-            <span class="social-label">TikTok</span>
-            <button class="social-button" (click)="openSocialMedia('tiktok')">Ver</button>
-          </div>
-          <div class="social-item" *ngIf="business.website">
-            <span class="social-icon">🌐</span>
-            <span class="social-label">Sitio Web</span>
-            <button class="social-button" (click)="openSocialMedia('website')">Visitar</button>
+      <div class="form-group" *ngIf="business.acceptsWhatsappOrders">
+        <div class="whatsapp-orders">
+          <div class="whatsapp-icon">✅</div>
+          <div class="whatsapp-text">
+            <h4>Pedidos por WhatsApp</h4>
+            <p>Este negocio acepta pedidos a través de WhatsApp</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label class="form-label">📞 Información de Contacto</label>
-      <div class="contact-container">
-        <div class="contact-item" *ngIf="business.phone">
-          <div class="contact-icon">📞</div>
-          <div class="contact-info">
-            <span class="contact-label">Teléfono</span>
-            <span class="contact-value">{{ business.phone }}</span>
-          </div>
-          <button class="contact-button" (click)="callPhone()">Llamar</button>
-        </div>
-        
-        <div class="contact-item" *ngIf="business.email">
-          <div class="contact-icon">📧</div>
-          <div class="contact-info">
-            <span class="contact-label">Email</span>
-            <span class="contact-value">{{ business.email }}</span>
-          </div>
-          <button class="contact-button" (click)="sendEmail()">Escribir</button>
-        </div>
-        
-        <div class="contact-item" *ngIf="business.whatsappNumber">
-          <div class="contact-icon">💬</div>
-          <div class="contact-info">
-            <span class="contact-label">WhatsApp</span>
-            <span class="contact-value">{{ business.whatsappNumber }}</span>
-          </div>
-          <button class="contact-button whatsapp" (click)="openWhatsApp()">Chatear</button>
+      <div class="action-section">
+        <h3 class="action-title">Opciones del Negocio</h3>
+        <div class="action-buttons-grid">
+          <button class="action-btn cancel-btn" (click)="goBack()">
+            <span class="btn-icon">↩️</span>
+            <span>Volver</span>
+          </button>
+          <button class="action-btn edit-btn" (click)="openAdminModal()" [disabled]="!canEditBusiness()">
+            <span class="btn-icon">✏️</span>
+            <span>{{ editButtonText }}</span>
+          </button>
+          <button class="action-btn delete-btn" (click)="openDeleteFunctionality()">
+            <span class="btn-icon">🗑️</span>
+            <span>Solicitar Eliminacion</span>
+            <small class="btn-subtitle">Próximamente</small>
+          </button>
+          <button class="action-btn admin-btn" (click)="openAdministrationPanel()">
+            <span class="btn-icon">⚙️</span>
+            <span>Administrar negocio</span>
+            <small class="btn-subtitle">Próximamente</small>
+          </button>
         </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label class="form-label">📍 Ubicación</label>
-      <div class="location-container">
-        <div class="location-info">
-          <div class="address">
-            <span class="location-icon">📍</span>
-            <span>{{ business.address || 'Dirección no especificada' }}</span>
-          </div>
-          <div class="sector" *ngIf="business.parishCommunitySector">
-            <span class="sector-label">Sector:</span>
-            <span>{{ business.parishCommunitySector }}</span>
-          </div>
-        </div>
-        <button class="map-button" (click)="openMaps()" *ngIf="business.googleMapsCoordinates">
-          <span class="map-icon">🗺️</span>
-          <span>Ver en Mapa</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="info-card">
-        <div class="info-icon">🏪</div>
-        <div class="info-content">
-          <h4>Tipo de Venta</h4>
-          <p>{{ salePlaceText }}</p>
-        </div>
-      </div>
-      
-      <div class="info-card">
-        <div class="info-icon">🚚</div>
-        <div class="info-content">
-          <h4>Delivery</h4>
-          <p>{{ deliveryText }}</p>
-        </div>
-      </div>
-      
-      <div class="info-card" *ngIf="business.category">
-        <div class="info-icon">🏷️</div>
-        <div class="info-content">
-          <h4>Categoría</h4>
-          <p>{{ business.category.name || 'Sin categoría' }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group" *ngIf="business.acceptsWhatsappOrders">
-      <div class="whatsapp-orders">
-        <div class="whatsapp-icon">✅</div>
-        <div class="whatsapp-text">
-          <h4>Pedidos por WhatsApp</h4>
-          <p>Este negocio acepta pedidos a través de WhatsApp</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="action-section">
-      <h3 class="action-title">Opciones del Negocio</h3>
-      <div class="action-buttons-grid">
-        <button class="action-btn cancel-btn" (click)="goBack()">
-          <span class="btn-icon">↩️</span>
-          <span>Volver</span>
-        </button>
-        <button class="action-btn edit-btn" (click)="openAdminModal()" [disabled]="!canEditBusiness()">
-          <span class="btn-icon">✏️</span>
-          <span>{{ editButtonText }}</span>
-        </button>
-        <button class="action-btn delete-btn" (click)="openDeleteFunctionality()">
-          <span class="btn-icon">🗑️</span>
-          <span>Solicitar Eliminacion</span>
-          <small class="btn-subtitle">Próximamente</small>
-        </button>
-        <button class="action-btn admin-btn" (click)="openAdministrationPanel()">
-          <span class="btn-icon">⚙️</span>
-          <span>Administrar negocio</span>
-          <small class="btn-subtitle">Próximamente</small>
-        </button>
-      </div>
     </div>
   </div>
+</div>
 
-  <div class="modal-overlay" *ngIf="showAdminModal" (click)="closeAdminModal()">
-    <div class="modal-container" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h2 class="modal-title">✏️ {{ business?.validationStatus === 'REJECTED' ? 'Corregir Negocio' : 'Editar Negocio' }}</h2>
-        <p class="modal-subtitle" *ngIf="business?.validationStatus === 'REJECTED'">
-          Corrige los datos de tu negocio para una nueva validación
-        </p>
-        <p class="modal-subtitle" *ngIf="business?.validationStatus !== 'REJECTED'">
-          Actualiza la información de tu emprendimiento
-        </p>
-        <button class="close-button" (click)="closeAdminModal()">
-          <span>&times;</span>
-        </button>
+<div class="modal-overlay" *ngIf="showAdminModal" (click)="closeAdminModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2 class="modal-title">✏️ {{ business?.validationStatus === 'REJECTED' ? 'Corregir Negocio' : 'Editar Negocio' }}</h2>
+      <p class="modal-subtitle" *ngIf="business?.validationStatus === 'REJECTED'">Corrige los datos de tu negocio para una nueva validación</p>
+      <p class="modal-subtitle" *ngIf="business?.validationStatus !== 'REJECTED'">Actualiza la información de tu emprendimiento</p>
+      <button class="close-button" (click)="closeAdminModal()">
+        <span>&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-content">
+      <div class="form-group">
+        <label class="form-label">Nombre Comercial</label>
+        <div class="input-container">
+          <input type="text" [(ngModel)]="editableBusiness.commercialName"
+                 placeholder="Nombre del negocio" class="form-input">
+        </div>
       </div>
 
-      <div class="modal-content">
-        <div class="form-group">
-          <label class="form-label">Nombre Comercial</label>
+      <div class="form-group">
+        <label class="form-label">Descripción</label>
+        <div class="input-container">
+          <textarea [(ngModel)]="editableBusiness.description" rows="4"
+                    placeholder="Describe tu negocio" class="form-textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <div class="input-container">
+          <input type="email" [(ngModel)]="editableBusiness.email"
+                 placeholder="correo@ejemplo.com" class="form-input">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Dirección</label>
+        <div class="input-container">
+          <textarea [(ngModel)]="editableBusiness.address" rows="2"
+                    placeholder="Dirección completa" class="form-textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label class="form-label">Facebook</label>
           <div class="input-container">
-            <input type="text" [(ngModel)]="editableBusiness.commercialName" 
-                   placeholder="Nombre del negocio" class="form-input">
+            <input type="text" [(ngModel)]="editableBusiness.facebook"
+                   placeholder="@usuario o URL completa" class="form-input">
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Descripción</label>
+        <div class="form-group half-width">
+          <label class="form-label">Instagram</label>
           <div class="input-container">
-            <textarea [(ngModel)]="editableBusiness.description" rows="4" 
-                      placeholder="Describe tu negocio" class="form-textarea"></textarea>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <div class="input-container">
-            <input type="email" [(ngModel)]="editableBusiness.email" 
-                   placeholder="correo@ejemplo.com" class="form-input">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Dirección</label>
-          <div class="input-container">
-            <textarea [(ngModel)]="editableBusiness.address" rows="2" 
-                      placeholder="Dirección completa" class="form-textarea"></textarea>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group half-width">
-            <label class="form-label">Facebook</label>
-            <div class="input-container">
-              <input type="text" [(ngModel)]="editableBusiness.facebook" 
-                     placeholder="@usuario o URL completa" class="form-input">
-            </div>
-          </div>
-
-          <div class="form-group half-width">
-            <label class="form-label">Instagram</label>
-            <div class="input-container">
-              <input type="text" [(ngModel)]="editableBusiness.instagram" 
-                     placeholder="@usuario o URL completa" class="form-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group half-width">
-            <label class="form-label">TikTok</label>
-            <div class="input-container">
-              <input type="text" [(ngModel)]="editableBusiness.tiktok" 
-                     placeholder="@usuario o URL completa" class="form-input">
-            </div>
-          </div>
-
-          <div class="form-group half-width">
-            <label class="form-label">Sitio Web</label>
-            <div class="input-container">
-              <input type="url" [(ngModel)]="editableBusiness.website" 
-                     placeholder="https://misitio.com" class="form-input">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">WhatsApp</label>
-          <div class="input-container">
-            <input type="tel" [(ngModel)]="editableBusiness.whatsappNumber" 
-                   placeholder="593999999999" class="form-input">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="checkbox-container">
-            <input type="checkbox" id="whatsapp-orders" 
-                   [(ngModel)]="editableBusiness.acceptsWhatsappOrders" class="form-checkbox">
-            <label for="whatsapp-orders" class="checkbox-label">Acepta pedidos por WhatsApp</label>
+            <input type="text" [(ngModel)]="editableBusiness.instagram"
+                   placeholder="@usuario o URL completa" class="form-input">
           </div>
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="cancel-button" (click)="closeAdminModal()">Cancelar</button>
-        <button class="save-button" (click)="saveBusinessChanges()">
-          {{ business?.validationStatus === 'REJECTED' ? 'Corregir y Guardar' : 'Guardar Cambios' }}
-        </button>
+      <div class="form-row">
+        <div class="form-group half-width">
+          <label class="form-label">TikTok</label>
+          <div class="input-container">
+            <input type="text" [(ngModel)]="editableBusiness.tiktok"
+                   placeholder="@usuario o URL completa" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-group half-width">
+          <label class="form-label">Sitio Web</label>
+          <div class="input-container">
+            <input type="url" [(ngModel)]="editableBusiness.website"
+                   placeholder="https://misitio.com" class="form-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">WhatsApp</label>
+        <div class="input-container">
+          <input type="tel" [(ngModel)]="editableBusiness.whatsappNumber"
+                 placeholder="593999999999" class="form-input">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="checkbox-container">
+          <input type="checkbox" id="whatsapp-orders"
+                 [(ngModel)]="editableBusiness.acceptsWhatsappOrders" class="form-checkbox">
+          <label for="whatsapp-orders" class="checkbox-label">Acepta pedidos por WhatsApp</label>
+        </div>
       </div>
     </div>
-  </div>
 
-</ion-content>
+    <div class="modal-footer">
+      <button class="cancel-button" (click)="closeAdminModal()">Cancelar</button>
+      <button class="save-button" (click)="saveBusinessChanges()">
+        {{ business?.validationStatus === 'REJECTED' ? 'Corregir y Guardar' : 'Guardar Cambios' }}
+      </button>
+    </div>
+  </div>
+</div>
+
